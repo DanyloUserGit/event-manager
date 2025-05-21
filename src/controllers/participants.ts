@@ -8,7 +8,7 @@ export class Participants{
 
     async addParticipant(body:AddParticipant){
         try {
-            const {eventId} = body;
+            const {eventId, userId} = body;
 
             const eventExists = await Participant.findOne({...body});
             if (eventExists) throw new Error("The participant already exists.");
@@ -18,7 +18,7 @@ export class Participants{
             if(!event) throw new Error("Event wasn`t found.");
             if (eventParticipantsNumber >= event.maxParticipants) throw new Error("The event reached its maxParticipants limit.");
 
-            const participant = await Participant.create({...body});
+            const participant = await Participant.create({eventId:new Types.ObjectId(eventId), userId:new Types.ObjectId(userId)});
             
             return participant;
         } catch (error) {

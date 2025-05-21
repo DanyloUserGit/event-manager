@@ -1,6 +1,8 @@
 import { Types } from "mongoose";
 import Event from "../models/Event";
 import { AddEvent } from "../types";
+import Participant from "../models/Participant";
+import path from "path";
 
 export class Events{
     constructor () {}
@@ -16,9 +18,9 @@ export class Events{
             throw error;
         }
     }
-    async getEvents(){
+    async getEvents(userId:string){
         try {
-            const events = await Event.find();
+            const events = await Participant.find({userId:new Types.ObjectId(userId)}).populate("eventId");
             return events;
         } catch (error) {
             throw error;
